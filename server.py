@@ -5,13 +5,14 @@ from flask import Flask, render_template, jsonify, request, Response
 
 from Exceptions.InvalidParameter import InvalidParameterException
 from Utils.Utila import Utils
+from acronym import Acronym
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def hello_world():
-    return render_template("index")
+    return render_template("index.html")
 
 
 @app.route('/add/<acronym>', methods=['POST'])
@@ -68,6 +69,21 @@ def get_filepath():
     file_path = os.path.join(dir_path, "data", "acronyms.json")
     return file_path
 
+
+
+def dict():
+	#initialize acronym list
+	acronymList = []
+
+	acronym = Acronym("ddc","demande de changement")
+	acronym2 = Acronym("pr","pull request")
+
+	acronymList.append(acronym)
+	acronymList.append(acronym2)
+
+	jsonStr = json.dumps([e.toJSON() for e in acronymList])
+
+	return jsonStr
 
 if __name__ == "__main__":
     app.run(debug=True)
